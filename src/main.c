@@ -5,7 +5,9 @@
 ** main
 */
 
+#include "proto.h"
+
 int main(void)
 {
-    return 0;
+    return OK;
 }
