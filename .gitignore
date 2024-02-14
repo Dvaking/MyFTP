@@ -1,0 +1,10 @@
+# File extention
+*.o
+*.a
+.vscode
+
+# Folder name
+coding-style*
+vgcore*
+unit-test*
+myftp
