@@ -12,4 +12,6 @@
     #define KO -1
     #define OK 0
 
+    #define IPV4 "127.0.0.1"
+
 #endif /* !MACRO_H_ */

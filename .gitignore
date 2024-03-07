@@ -1,10 +1,14 @@
-# File extention
+# Extention to ignore
 *.o
 *.a
 .vscode
+*.sh
 
-# Folder name
+# Files && Folders to ignore
 coding-style*
 vgcore*
 unit-test*
+unit_tests
+a.out
 myftp
+boostrap

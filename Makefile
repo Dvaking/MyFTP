@@ -1,24 +1,44 @@
 ##
-## EPITECH PROJECT, 2023
+## EPITECH PROJECT, 2024
 ## makefile
 ## File description:
 ## makefile
 ##
 
-SRC			=	src/main.c
+SRC			=	main.c			\
+				my_ftp.c		\
+				$(DIR_TOOLBOX)	\
+				$(DIR_SERVER)	\
 
-OBJ			=	$(SRC:.c=.o)
+TOOLBOX		=	check_args.c			\
+				socket_initialization.c	\
+
+SERVER		=	connection.c			\
+				get_information.c		\
+
+TEST		=	test.c
+
+DIR_SRC		=	$(addprefix src/, $(SRC))
+DIR_TESTS	=	$(addprefix tests/, $(TEST))
+DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
+DIR_SERVER	=	$(addprefix server/, $(SERVER))
+
+OBJ_SRC		=	$(DIR_SRC:.c=.o)
+OBJ			=	$(OBJ_SRC)
 
 NAME		=	myftp
 
+CPPFLAGS	=	-I./includes/ -I./lib/my/include/
 
+WFLAGS		=	-W -Wall -Wextra
 
-CPPFLAGS	=	-I./includes/
-
-LCRITER		= -lcriterion
+LCRITER		= --coverage -lcriterion
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ $(CPPFLAGS) ${LDLIB} ${LMY}
+	gcc -o $@ $^ $(WFLAGS)
+
+debug: fclean
+	gcc -o $(NAME) $(DIR_SRC) $(CPPFLAGS) $(WFLAGS) -ggdb3
 
 all: $(NAME)
 
@@ -27,14 +47,16 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	rm -f unit_tests*
+	rm -rf unit_tests/
 
 re: fclean $(NAME)
 
-unit_tests:	$(SRC)
-	gcc -o unit_tests $^ tests/test.c $(LDLIB) $(LMY) $(CPPFLAGS) \
-	--coverage -lcriterion
-	./unit_tests
-	gcovr --exclude tests/
+unit_tests: fclean
+	mkdir unit_tests
+	gcc -o unit_tests/unit_tests $(DIR_SRC) $(DIR_TESTS) \
+	$(CPPFLAGS) $(WFLAGS) $(LCRITER)
 
-.PHONY: all clean fclean re unit_tests
+tests_run:	unit_tests
+	./unit_tests
+
+.PHONY: all clean fclean re unit_tests tests_run
