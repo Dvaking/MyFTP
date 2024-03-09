@@ -10,18 +10,25 @@ SRC			=	main.c			\
 				$(DIR_TOOLBOX)	\
 				$(DIR_SERVER)	\
 
-TOOLBOX		=	check_args.c			\
-				socket_initialization.c	\
+TOOLBOX		=	check_args.c		\
+				initialization.c	\
+				remove_line_break.c	\
 
-SERVER		=	connection.c			\
-				get_information.c		\
+SERVER		=	client.c		\
+				server.c		\
+				$(DIR_COMMANDS)	\
+
+COMMANDS	=	authentification.c		\
+				disconnection.c			\
+				command.c				\
 
 TEST		=	test.c
 
-DIR_SRC		=	$(addprefix src/, $(SRC))
-DIR_TESTS	=	$(addprefix tests/, $(TEST))
-DIR_TOOLBOX	=	$(addprefix toolbox/, $(TOOLBOX))
-DIR_SERVER	=	$(addprefix server/, $(SERVER))
+DIR_SRC			=	$(addprefix src/, $(SRC))
+DIR_TESTS		=	$(addprefix tests/, $(TEST))
+DIR_TOOLBOX		=	$(addprefix toolbox/, $(TOOLBOX))
+DIR_SERVER		=	$(addprefix server/, $(SERVER))
+DIR_COMMANDS	=	$(addprefix commands/, $(COMMANDS))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
 OBJ			=	$(OBJ_SRC)
@@ -32,29 +39,36 @@ CPPFLAGS	=	-I./includes/ -I./lib/my/include/
 
 WFLAGS		=	-W -Wall -Wextra
 
+LMY			=	-L./lib/ -lmy
+
 LCRITER		= --coverage -lcriterion
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ $(WFLAGS)
+	make -C lib/my
+	gcc -o $@ $^ $(WFLAGS) $(LMY)
 
 debug: fclean
-	gcc -o $(NAME) $(DIR_SRC) $(CPPFLAGS) $(WFLAGS) -ggdb3
+	make -C lib/my
+	gcc -o $(NAME) $(DIR_SRC) $(CPPFLAGS) $(WFLAGS) $(LMY) -ggdb3
 
 all: $(NAME)
 
 clean:
 	rm -f $(OBJ)
+	make clean -C lib/my
 
 fclean: clean
 	rm -f $(NAME)
 	rm -rf unit_tests/
+	make fclean -C lib/my
 
 re: fclean $(NAME)
 
 unit_tests: fclean
+	make -C lib/my
 	mkdir unit_tests
 	gcc -o unit_tests/unit_tests $(DIR_SRC) $(DIR_TESTS) \
-	$(CPPFLAGS) $(WFLAGS) $(LCRITER)
+	$(CPPFLAGS) $(WFLAGS) $(LCRITER) $(LMY)
 
 tests_run:	unit_tests
 	./unit_tests

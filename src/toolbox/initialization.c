@@ -14,6 +14,21 @@
 #include "struct.h"
 #include "macro.h"
 
+static int client_initialization(server_t *server)
+{
+    if (server == NULL)
+        return KO;
+    for (int i = 0; i < __FD_SETSIZE; i++){
+        server->list[i].socket = i;
+        server->list[i].addr_len = sizeof(server->list[i].addr);
+        server->list[i].username = 0;
+        server->list[i].password = 0;
+        server->list[i].is_connected = false;
+        server->list[i].command = NULL;
+    }
+    return OK;
+}
+
 static int socket_initialization_sub(server_t *server)
 {
     if (server == NULL)
@@ -22,14 +37,11 @@ static int socket_initialization_sub(server_t *server)
     sizeof(server->server_addr)) == KO) {
         perror("Bind failed");
         return KO;
-    } else
-        printf("Bind Success\n");
-    printf("Connection from %s:%d\n", IPV4, server->port);
+    }
     if (listen(server->server_socket, 5) == KO) {
         perror("Listen failed");
         return KO;
-    } else
-        printf("Server listenning...\n");
+    }
     return OK;
 }
 
@@ -46,6 +58,21 @@ int socket_initialization(server_t *server)
     server->server_addr.sin_addr.s_addr = inet_addr(IPV4);
     server->server_addr.sin_port = htons(server->port);
     if (socket_initialization_sub(server) == KO)
+        return KO;
+    return OK;
+}
+
+int structure_initialization(server_t *server, char const *const *av)
+{
+    if (server == NULL || av == NULL)
+        return KO;
+    server->port = atoi(av[1]);
+    if (server->port < 0) {
+        perror("Port is not a number");
+        return KO;
+    }
+    server->server_addr_len = sizeof(server->server_addr);
+    if (client_initialization(server) == KO)
         return KO;
     return OK;
 }

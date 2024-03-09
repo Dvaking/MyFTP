@@ -22,32 +22,16 @@ static int write_message(void)
     return OK;
 }
 
-static int struture_initialization(server_t *server, char const *const *av)
-{
-    if (server == NULL || av == NULL)
-        return KO;
-    server->port = atoi(av[1]);
-    if (server->port == -1) {
-        perror("Port is not a number");
-        return KO;
-    }
-    return OK;
-}
-
 static int my_ftp_loop(server_t *server)
 {
-    fd_set current_socket;
-
-    FD_ZERO(&current_socket);
-    FD_SET(server->server_socket, &current_socket);
+    FD_ZERO(&server->current_socket);
+    FD_SET(server->server_socket, &server->current_socket);
     while (1) {
-        server->ready_socket = current_socket;
-        printf("Waiting for connection...\n");
-        if (select(FD_SETSIZE, &current_socket, NULL, NULL, NULL) == KO) {
-            perror("Select failed");
+        printf("Waiting for connection\n");
+        server->ready_socket = server->current_socket;
+        if (is_new_client(server) == KO)
             return KO;
-        }
-        if (get_information(server) == KO){
+        if (server_loop(server) == KO){
             return KO;
         }
     }
@@ -58,12 +42,14 @@ int my_ftp(char const *const *av)
 {
     struct server_s server;
 
+    if (av == NULL)
+        return KO;
     if (strcmp(av[1], "-help") == 0) {
         if (write_message() == KO)
             return KO;
         return OK;
     }
-    if (struture_initialization(&server, av) == KO)
+    if (structure_initialization(&server, av) == KO)
         return KO;
     if (socket_initialization(&server) == KO)
         return KO;

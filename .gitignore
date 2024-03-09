@@ -3,6 +3,7 @@
 *.a
 .vscode
 *.sh
+*.txt
 
 # Files && Folders to ignore
 coding-style*
