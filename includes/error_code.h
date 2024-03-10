@@ -24,5 +24,8 @@
     #define CWD_FAILED "550 Requested action not taken.\r\n"
     #define CDUP_SUCCESS "200 Command okay.\r\n"
 
+    #define DELETE_SUCCESS "250 Requested file action okay, file delete.\r\n"
+    #define WRONG_ARGUMENT "501 Syntax error in parameters or arguments.\r\n"
+
 
 #endif /* !ERROR_CODE_H_ */

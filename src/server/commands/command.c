@@ -19,6 +19,7 @@ const struct function_tab_s OPERATORS_FUNCS[] = {
     {"CWD\0", &cwd},
     {"CDUP\0", &cdup},
     {"PWD\0", &pwd},
+    {"DELE\0", &dele},
     {"QUIT\0", &disconnected},
     {"NULL\0", NULL}
 };

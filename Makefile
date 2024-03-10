@@ -27,6 +27,7 @@ CONNECTION	=	authentification.c	\
 
 FOLDER		=	move_in_folder.c	\
 				pwd.c				\
+				dele.c				\
 
 TEST		=	test.c
 

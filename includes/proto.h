@@ -39,6 +39,7 @@ int disconnected(server_t *server, int socket);
 int cwd(server_t *server, int socket);
 int pwd(server_t *server, int socket);
 int cdup(server_t *server, int socket);
+int dele(server_t *server, int socket);
 
 /* Toolbox */
 int remove_line_break(char *str);
