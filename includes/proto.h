@@ -34,12 +34,14 @@ int free_client(server_t *server);
 /* Command */
 int execute_command(server_t *server, int socket);
 int authentification(server_t *server, int socket);
-int is_authenticated(client_t *client);
 int disconnected(server_t *server, int socket);
-int cwd(server_t *server, int socket);
-int pwd(server_t *server, int socket);
+int help_command(server_t *server, int socket);
+int is_authenticated(client_t *client);
 int cdup(server_t *server, int socket);
 int dele(server_t *server, int socket);
+int noop(server_t *server, int socket);
+int cwd(server_t *server, int socket);
+int pwd(server_t *server, int socket);
 
 /* Toolbox */
 int remove_line_break(char *str);

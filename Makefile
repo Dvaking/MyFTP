@@ -24,6 +24,7 @@ COMMANDS	=	command.c			\
 
 CONNECTION	=	authentification.c	\
 				disconnection.c		\
+				noop.c				\
 
 FOLDER		=	move_in_folder.c	\
 				pwd.c				\

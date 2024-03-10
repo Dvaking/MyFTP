@@ -69,7 +69,7 @@ int cdup(server_t *server, int socket)
     client->path = getcwd(NULL, 0);
     if (client->path == NULL)
         return KO;
-    if (server_response(socket, CDUP_SUCCESS) == KO)
+    if (server_response(socket, COMMAND_SUCCESS) == KO)
         return KO;
     return OK;
 }

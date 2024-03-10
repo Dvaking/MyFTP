@@ -16,13 +16,31 @@
 const struct function_tab_s OPERATORS_FUNCS[] = {
     {"USER\0", &authentification},
     {"PASS\0", &authentification},
-    {"CWD\0", &cwd},
-    {"CDUP\0", &cdup},
-    {"PWD\0", &pwd},
-    {"DELE\0", &dele},
     {"QUIT\0", &disconnected},
+    {"HELP\0", &help_command},
+    {"CDUP\0", &cdup},
+    {"DELE\0", &dele},
+    {"NOOP\0", &noop},
+    {"CWD\0", &cwd},
+    {"PWD\0", &pwd},
     {"NULL\0", NULL}
 };
+
+int help_command(server_t *server, int socket)
+{
+    if (server == NULL)
+        return KO;
+    if (server_response(socket, "214 Help message.\r\n  USER [arg]:\r\n\
+    send ur username to connect\r\n  PASS [arg]:\r\n\
+    send ur pass to connect\r\n  CWD [arg]:\r\n\
+    moves through server files\r\n  CDUP\r\n\
+    moves to the parent file\r\n  PWD [arg]:\r\n\
+    is used to give the position in files\r\n  DELE [arg]:\r\n\
+    deletes a file on the server\r\n  QUIT:\r\n\
+    allows you to disconnect\r\n") == KO)
+        return KO;
+    return OK;
+}
 
 static int execute_command_sub(server_t *server, int socket,
     int j, bool *is_exist)

@@ -11,6 +11,7 @@
     #define NEW_CONNECTION "220 Service ready for new user.\r\n"
     #define USER_LOGGED "230 User logged in, proceed.\r\n"
     #define CLOSE_CONNECTION "221 Service closing control connection.\r\n"
+    #define COMMAND_SUCCESS "200 Command okay.\r\n"
 
     #define USER_AUTH "331 User name okay, need password.\r\n"
     #define NO_USER "332 Need account for login.\r\n"
@@ -22,7 +23,6 @@
 
     #define CWD_SUCCESS "250 Requested file action okay, completed.\r\n"
     #define CWD_FAILED "550 Requested action not taken.\r\n"
-    #define CDUP_SUCCESS "200 Command okay.\r\n"
 
     #define DELETE_SUCCESS "250 Requested file action okay, file delete.\r\n"
     #define WRONG_ARGUMENT "501 Syntax error in parameters or arguments.\r\n"
