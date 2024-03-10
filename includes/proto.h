@@ -29,11 +29,16 @@ int server_response(int socket, char *message);
 int client_new_connection(server_t *server);
 int is_new_client(server_t *server);
 char **client_sending(int socket);
+int free_client(server_t *server);
 
 /* Command */
 int execute_command(server_t *server, int socket);
 int authentification(server_t *server, int socket);
+int is_authenticated(client_t *client);
 int disconnected(server_t *server, int socket);
+int cwd(server_t *server, int socket);
+int pwd(server_t *server, int socket);
+int cdup(server_t *server, int socket);
 
 /* Toolbox */
 int remove_line_break(char *str);

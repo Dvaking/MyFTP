@@ -8,13 +8,14 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
 #include "struct.h"
 #include "macro.h"
 
-static int client_initialization(server_t *server)
+static int client_initialization(server_t *server, char const *path)
 {
     if (server == NULL)
         return KO;
@@ -24,6 +25,7 @@ static int client_initialization(server_t *server)
         server->list[i].username = 0;
         server->list[i].password = 0;
         server->list[i].is_connected = false;
+        server->list[i].path = strdup(path);
         server->list[i].command = NULL;
     }
     return OK;
@@ -64,15 +66,23 @@ int socket_initialization(server_t *server)
 
 int structure_initialization(server_t *server, char const *const *av)
 {
+    char *tmp = NULL;
+
     if (server == NULL || av == NULL)
         return KO;
+    tmp = realpath(av[2], NULL);
     server->port = atoi(av[1]);
     if (server->port < 0) {
         perror("Port is not a number");
         return KO;
     }
-    server->server_addr_len = sizeof(server->server_addr);
-    if (client_initialization(server) == KO)
+    if (tmp == NULL) {
+        perror("Path is not valid");
         return KO;
+    }
+    server->server_addr_len = sizeof(server->server_addr);
+    if (client_initialization(server, tmp) == KO)
+        return KO;
+    free(tmp);
     return OK;
 }

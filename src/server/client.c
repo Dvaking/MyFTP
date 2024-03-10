@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "proto.h"
 #include "proto_lib.h"
@@ -68,4 +69,21 @@ char **client_sending(int socket)
     remove_line_break(buffer);
     printf("Received: '%s'\n", buffer);
     return my_splitstr(buffer, ' ');
+}
+
+int free_client(server_t *server)
+{
+    if (server == NULL)
+        return KO;
+    for (int i = 0; i < __FD_SETSIZE; i++){
+        if (server->list[i].path != NULL) {
+            free(server->list[i].path);
+            server->list[i].path = NULL;
+        }
+        if (server->list[i].command != NULL) {
+            free_tab(&server->list[i].command);
+            server->list[i].command = NULL;
+        }
+    }
+    return OK;
 }

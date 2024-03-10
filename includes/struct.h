@@ -18,6 +18,7 @@ typedef struct client_s {
     int username;
     int password;
     char **command;
+    char *path;
     bool is_connected;
 } client_t;
 

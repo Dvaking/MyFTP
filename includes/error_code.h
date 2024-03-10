@@ -20,5 +20,9 @@
     #define WRONG_ID "500 Login incorrect.\r\n"
     #define UNKNOWN_COMMAND "500 Unknown command.\r\n"
 
+    #define CWD_SUCCESS "250 Requested file action okay, completed.\r\n"
+    #define CWD_FAILED "550 Requested action not taken.\r\n"
+    #define CDUP_SUCCESS "200 Command okay.\r\n"
+
 
 #endif /* !ERROR_CODE_H_ */

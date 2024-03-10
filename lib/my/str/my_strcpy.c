@@ -19,6 +19,8 @@ int my_strcpy(char const *src, char **dest)
     lenStr = my_strlen(src);
     if (lenStr == -1)
         return -1;
+    if ((*dest) != NULL)
+        free((*dest));
     (*dest) = malloc(sizeof(char) * (lenStr + 1));
     if ((*dest) == NULL)
         return -1;

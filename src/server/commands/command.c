@@ -16,6 +16,9 @@
 const struct function_tab_s OPERATORS_FUNCS[] = {
     {"USER\0", &authentification},
     {"PASS\0", &authentification},
+    {"CWD\0", &cwd},
+    {"CDUP\0", &cdup},
+    {"PWD\0", &pwd},
     {"QUIT\0", &disconnected},
     {"NULL\0", NULL}
 };

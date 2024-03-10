@@ -12,23 +12,13 @@
 
 #include "proto.h"
 
-static int write_message(void)
-{
-    if (write(1, "USAGE: ./my_ftp port path\n\n\
-        port  is the port number on which the server socket listens\n\
-        path  is the path to the home directory for the Anonymous user\n",
-        167) == KO)
-            return KO;
-    return OK;
-}
-
 static int my_ftp_loop(server_t *server)
 {
     FD_ZERO(&server->current_socket);
     FD_SET(server->server_socket, &server->current_socket);
     while (1) {
-        printf("Waiting for connection\n");
         server->ready_socket = server->current_socket;
+        printf("Waiting for connection...\n");
         if (is_new_client(server) == KO)
             return KO;
         if (server_loop(server) == KO){
@@ -44,19 +34,18 @@ int my_ftp(char const *const *av)
 
     if (av == NULL)
         return KO;
-    if (strcmp(av[1], "-help") == 0) {
-        if (write_message() == KO)
-            return KO;
-        return OK;
-    }
     if (structure_initialization(&server, av) == KO)
         return KO;
-    if (socket_initialization(&server) == KO)
+    if (socket_initialization(&server) == KO){
+        free_client(&server);
         return KO;
+    }
     if (my_ftp_loop(&server) == KO){
+        free_client(&server);
         close(server.server_socket);
         return KO;
     }
+    free_client(&server);
     close(server.server_socket);
     return OK;
 }

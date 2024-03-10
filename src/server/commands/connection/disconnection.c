@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "proto.h"
@@ -27,6 +28,7 @@ int disconnected(server_t *server, int socket)
         FD_CLR(socket, &server->current_socket);
         close(socket);
         printf("Client n°%d disconnected\n", socket);
+        free(client->path);
     }
     return OK;
 }

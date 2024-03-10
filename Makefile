@@ -7,20 +7,26 @@
 
 SRC			=	main.c			\
 				my_ftp.c		\
-				$(DIR_TOOLBOX)	\
 				$(DIR_SERVER)	\
+				$(DIR_TOOLBOX)	\
 
 TOOLBOX		=	check_args.c		\
 				initialization.c	\
 				remove_line_break.c	\
 
-SERVER		=	client.c		\
-				server.c		\
-				$(DIR_COMMANDS)	\
+SERVER		=	client.c			\
+				server.c			\
+				$(DIR_COMMANDS)		\
 
-COMMANDS	=	authentification.c		\
-				disconnection.c			\
-				command.c				\
+COMMANDS	=	command.c			\
+				$(DIR_FOLDER)		\
+				$(DIR_CONNECTION)	\
+
+CONNECTION	=	authentification.c	\
+				disconnection.c		\
+
+FOLDER		=	move_in_folder.c	\
+				pwd.c				\
 
 TEST		=	test.c
 
@@ -28,7 +34,10 @@ DIR_SRC			=	$(addprefix src/, $(SRC))
 DIR_TESTS		=	$(addprefix tests/, $(TEST))
 DIR_TOOLBOX		=	$(addprefix toolbox/, $(TOOLBOX))
 DIR_SERVER		=	$(addprefix server/, $(SERVER))
+
 DIR_COMMANDS	=	$(addprefix commands/, $(COMMANDS))
+DIR_CONNECTION	=	$(addprefix connection/, $(CONNECTION))
+DIR_FOLDER		=	$(addprefix folder_interraction/, $(FOLDER))
 
 OBJ_SRC		=	$(DIR_SRC:.c=.o)
 OBJ			=	$(OBJ_SRC)
