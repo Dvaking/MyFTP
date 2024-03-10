@@ -39,9 +39,9 @@ int pwd(server_t *server, int socket)
 
     if (server == NULL)
         return KO;
-    if (is_authenticated(server, socket) == KO)
-        return OK;
     client = &server->list[socket];
+    if (is_authenticated(client) == KO)
+        return OK;
     if (client->path == NULL)
         return KO;
     path = create_path(client->path, "257 ");
