@@ -40,11 +40,7 @@ int my_ftp(char const *const *av)
         free_client(&server);
         return KO;
     }
-    if (my_ftp_loop(&server) == KO){
-        free_client(&server);
-        close(server.server_socket);
-        return KO;
-    }
+  
     free_client(&server);
     close(server.server_socket);
     return OK;
