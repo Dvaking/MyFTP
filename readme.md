@@ -18,8 +18,6 @@ The goal of this project is to create a **FTP server.**
 ## Installation
 A little intro about the installation.
 ```
-Server:
-
 $ git clone git@github.com:Dvaking/MyFTP.git
 $ cd MyFTP
 $ make
@@ -27,3 +25,40 @@ $ ./myftp port path
 ```
 ## Overview
 ***
+```
+Server:
+
+$ make
+$ ./myftp 8000 ./
+Waiting for connection...
+```
+```
+Client:
+
+$ telnet localhost 8000
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+220 Service ready for new user.
+USER Anonymous
+331 User name okay, need password.
+PASS
+230 User logged in, proceed.
+HELP
+214 Help message.
+  USER [arg]:
+    send ur username to connect
+  PASS [arg]:
+    send ur pass to connect
+  CWD [arg]:
+    moves through server files
+  CDUP
+    moves to the parent file
+  PWD [arg]:
+    is used to give the position in files
+  DELE [arg]:
+    deletes a file on the server
+  QUIT:
+    allows you to disconnect
+
+```
