@@ -24,7 +24,6 @@ $ make
 $ ./myftp port path
 ```
 ## Overview
-***
 ```
 Server:
 
